@@ -1,0 +1,15 @@
+{
+  "id": "hardin-barker-a202330",
+  "revision": 2,
+  "problem_ids": ["hardin-barker-a202330"],
+  "topic": "Exact enumeration of Hardin's two-parameter binary-array table and proofs of Barker's fixed-width conjectures",
+  "title": "A general formula for Hardin's binary arrays proving Barker's conjectures",
+  "creators": [
+    {"name": "Ma, Haobo", "affiliation": "ChronoAI Pte Ltd, Singapore"},
+    {"name": "Zhang, Wenlin", "affiliation": "National University of Singapore; ChronoAI Pte Ltd, Singapore"}
+  ],
+  "abstract": "We prove Hardin's empirical quartic and Barker's conjectures in the FORMULA field of OEIS A202330, revision 8 (27 May 2018), by counting the entire two-parameter array A202335: for n,m>=1 its entry is 2+2*binomial(n+m+2,n+1)+binomial(n+m,n). The row-chain proof also establishes the empirical polynomials and conjectural generating functions and recurrences in A202331--A202334, both Kotesovec diagonal recurrences in A202329, and the first two column identities. Every fixed-width sequence has minimal eventual recurrence order equal to its width plus one.",
+  "summary": "A complete two-parameter binomial count, five fixed-width source formula blocks, both diagonal recurrences, first-column identities, exact checks, and precise four-column Lean declaration scope. General fixed-width rationality and the classical cyclic-product maximum are credited to their earlier sources.",
+  "license": "cc-by-4.0",
+  "evidence_url": "https://github.com/the-omega-institute/trureturing/blob/79dfe4f731baccd42dd3c56cf6331a0ddd3cafdb/D5/S3/Combinatorics/TraceAvoidingArrays/HardinA202330.lean"
+}

@@ -1,0 +1,182 @@
+{
+  "arbitrary_width_transfer_grid": {
+    "equalities": 91,
+    "heights": [
+      2,
+      14
+    ],
+    "widths": [
+      2,
+      8
+    ]
+  },
+  "arithmetic": "exact integers and rational polynomial coefficients",
+  "cyclic_product_generating_function_indices": [
+    0,
+    210
+  ],
+  "diagonal_and_column_formula_indices": [
+    1,
+    210
+  ],
+  "diagonal_rational_identity_denominator_degrees": [
+    10,
+    6
+  ],
+  "exhaustive_binary_array_counts": [
+    [
+      2,
+      2,
+      16
+    ],
+    [
+      2,
+      3,
+      25
+    ],
+    [
+      2,
+      4,
+      36
+    ],
+    [
+      3,
+      2,
+      25
+    ],
+    [
+      3,
+      3,
+      48
+    ],
+    [
+      3,
+      4,
+      82
+    ],
+    [
+      4,
+      2,
+      36
+    ],
+    [
+      4,
+      3,
+      82
+    ],
+    [
+      4,
+      4,
+      162
+    ]
+  ],
+  "exhaustive_cyclic_permutation_maxima": [
+    [
+      2,
+      4
+    ],
+    [
+      3,
+      11
+    ],
+    [
+      4,
+      25
+    ],
+    [
+      5,
+      48
+    ],
+    [
+      6,
+      82
+    ],
+    [
+      7,
+      129
+    ],
+    [
+      8,
+      191
+    ]
+  ],
+  "fixed_width_minimality_certificate": "each numerator at one equals 2",
+  "four_column_continuation_identity": {
+    "arithmetic": "exact integers",
+    "dynamic_count_indices": [
+      1,
+      210
+    ],
+    "exhaustive_binary_arrays_by_height": {
+      "2": 256,
+      "3": 4096,
+      "4": 65536
+    },
+    "exhaustive_counts_by_height": {
+      "2": 36,
+      "3": 82,
+      "4": 162
+    },
+    "generating_function_coefficient_indices": [
+      0,
+      210
+    ],
+    "horizontal_rows": [
+      "0000",
+      "0001",
+      "0010",
+      "0011",
+      "0111",
+      "1111"
+    ],
+    "initial_counts": [
+      36,
+      82,
+      162,
+      289,
+      478,
+      746,
+      1112,
+      1597,
+      2224,
+      3018
+    ],
+    "initial_vector_equalities": 36,
+    "numerator_at_one": 2,
+    "numerator_coefficients": [
+      0,
+      36,
+      -98,
+      112,
+      -61,
+      13
+    ],
+    "ordered_pair_states": 36,
+    "polynomial_coefficient_equalities": 180,
+    "recurrence_indices": [
+      6,
+      210
+    ],
+    "status": "all equalities hold",
+    "sum_polynomial_coefficients": [
+      432,
+      394,
+      137,
+      20,
+      1
+    ],
+    "triple_predicates": 216
+  },
+  "source_generating_function_indices": [
+    0,
+    210
+  ],
+  "source_polynomial_widths": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "status": "all equalities hold"
+}

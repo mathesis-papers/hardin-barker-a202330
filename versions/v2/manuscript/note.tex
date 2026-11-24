@@ -1,0 +1,262 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.9in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs,array}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\bin}[2]{\binom{#1}{#2}}
+\title{A general formula for Hardin's binary arrays\protect\\ proving Barker's conjectures}
+\author{Haobo Ma\\\small ChronoAI Pte Ltd, Singapore
+\and Wenlin Zhang\\\small National University of Singapore\\\small ChronoAI Pte Ltd, Singapore}
+\date{17 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We prove Hardin's ``Empirical'' quartic and Barker's ``Conjectures'' in the FORMULA field of OEIS A202330, revision 8 (27 May 2018), by counting the entire two-parameter array of A202335: for $n,m\ge1$ its entry is
+$2+2\bin{n+m+2}{n+1}+\bin{n+m}{n}$.
+The proof describes every allowed row and counts chains of such rows with two independent terminal rows. It also proves the empirical polynomials and conjectural generating functions and recurrences in A202331--A202334, both of Kotesovec's empirical diagonal recurrences in A202329, and the first two column identities of the parent array. Every fixed-width sequence has the least possible eventual recurrence order equal to its width plus one.
+\end{abstract}
+
+\section{The count in arbitrary dimensions}
+Let $N(h,w)$ count labeled $h\times w$ binary arrays with open boundaries for which the overlapping two-bit windows are nondecreasing in each row and column, read in their natural order. In other words, each consecutive triple $(u,v,z)$ satisfies
+\begin{equation}\label{eq:local}
+                       2u+v\le2v+z.
+\end{equation}
+No rotations, reflections, or translations are identified. Hardin's table is
+$T(n,m)=N(n+1,m+1)$ for $n,m\ge1$ \cite{parent}; A202330 is $a_n=T(n,3)$ \cite{primary}. Its four-column FORMULA field gives an empirical count and Barker's conjectural series and recurrence. A row description gives a single formula for the whole table, rather than a separate transfer calculation at each width.
+
+General finite-pattern theory already gives rationality at each fixed width: apply Dougherty-Bliss, Koutschan, Ter-Saakov and Zeilberger's Theorem~2.2 \cite{patterns} with horizontal and vertical forbidden sets both equal to $\{100,101,110\}$. Their accompanying procedure \texttt{GF1t} computes such rational functions. The result here is the explicit count in both dimensions, which yields the particular conjectured formulas and their minimal recurrence orders.
+
+\begin{theorem}\label{thm:table}
+For all $h,w\ge2$,
+\begin{equation}\label{eq:count}
+             N(h,w)=2+2\bin{h+w}{h}+\bin{h+w-2}{h-1}.
+\end{equation}
+Equivalently, $T(n,m)=2+2\bin{n+m+2}{n+1}+\bin{n+m}{n}$ for all $n,m\ge1$.
+\end{theorem}
+\begin{proof}
+For binary entries, \eqref{eq:local} imposes no restriction when $u=0$ and forces $v=z=1$ when $u=1$. Thus a one in any position other than the last two of a word forces every later position to be one. The allowed words of length $w\ge2$ are the $w+1$ words
+$0^{w-j}1^j$, $0\le j\le w$, together with $0^{w-2}10$.
+Order their sets of one-positions by inclusion. There is one bottom element $0$, two incomparable elements of size one, and one element of each size $j=2,\ldots,w$, forming a chain above both. Write $Q_w$ for this row poset; it has $w+2$ elements. In particular the two singleton rows must both be retained.
+
+If $h=2$, no column has a triple, so $N(2,w)=(w+2)^2$, which agrees with \eqref{eq:count}. Suppose $h\ge3$ and put $t=h-2\ge1$. The column conditions say precisely that the first $t$ rows form a weakly increasing chain in $Q_w$, and that each of the last two rows contains the last row of that chain. Indeed a one in row $i\le h-2$ forces both subsequent rows to contain it, and hence forces every later row to contain it. Conversely these inclusions imply all column inequalities. The last two rows need not contain each other.
+
+There is one chain of length $t$ ending at $0$. There are $t$ ending at either specified singleton, since its first occurrence can be at any of the $t$ positions. For the unique row of size $j\ge2$, let $c_j(t)$ be the number of chains of length $t$ ending at that row. Choose one of the two singleton rows as a reference. The chains using no other singleton are chains in a total order of $j+1$ elements, with their last element prescribed. Their number is $\bin{t+j-1}{j}$ by the multiplicities of the first $t-1$ positions. A chain containing the reference singleton has one additional choice of singleton. The number of these chains is
+\[
+ \bin{t+j-1}{j}-\bin{t+j-2}{j-1}=\bin{t+j-2}{j},
+\]
+where the second term counts chains avoiding it. Therefore
+\begin{equation}\label{eq:chains}
+ c_j(t)=\bin{t+j-1}{j}+\bin{t+j-2}{j}\qquad(j\ge2).
+\end{equation}
+Above the bottom, a singleton, and the size-$j$ row there are respectively $w+2$, $w$, and $w-j+1$ choices for either terminal row. The choices are independent. Hence
+\begin{equation}\label{eq:sum}
+ N(h,w)=(w+2)^2+2tw^2+
+        \sum_{j=2}^w c_j(t)(w-j+1)^2.
+\end{equation}
+
+Here is the coefficient calculation evaluating this finite sum, including its boundary terms. In formal power series let $b_j$ be the coefficient of $z^j$ in
+\[
+ B_t(z)=(1-z)^{-t}+(1-z)^{-(t-1)}.
+\]
+Then $b_0=2$, $b_1=2t-1$, and $b_j=c_j(t)$ for $j\ge2$. This also holds at $t=1$, when the second summand is the constant series $1$. Comparing \eqref{eq:sum} with $\sum_{j=0}^w b_j(w-j+1)^2$ leaves the correction
+\[
+ (w+2)^2-2(w+1)^2+\bigl(2t-(2t-1)\bigr)w^2=2.
+\]
+Since $\sum_{r\ge0}(r+1)^2z^r=(1+z)/(1-z)^3$, it follows that
+\begin{align*}
+ N(h,w)-2
+  &=[z^w]\frac{(2-z)(1+z)}{(1-z)^{t+3}}\\
+  &=[z^w]\frac{2+z-z^2}{(1-z)^{h+1}}\\
+  &=2\bin{h+w}{h}+\bin{h+w-1}{h}-\bin{h+w-2}{h}\\
+  &=2\bin{h+w}{h}+\bin{h+w-2}{h-1}.
+\end{align*}
+All coefficient operations are formal; the binomial-series identity follows by multiplying geometric series, and the square-series identity by two formal differentiations. This proves the theorem.
+\end{proof}
+
+\section{Barker's formulas and fixed-width consequences}
+\begin{corollary}\label{cor:four}
+For $n\ge1$, the sequence A202330 satisfies
+\begin{align}
+12a_n&=n^4+16n^3+83n^2+176n+156,\label{eq:quartic}\\
+\sum_{n\ge1}a_nx^n
+ &=\frac{x(36-98x+112x^2-61x^3+13x^4)}{(1-x)^5},\label{eq:gf}\\
+a_n&=5a_{n-1}-10a_{n-2}+10a_{n-3}-5a_{n-4}+a_{n-5}
+ \quad(n\ge6).\label{eq:rec}
+\end{align}
+The least eventual constant-coefficient recurrence order over $\mathbb Q$ is five, and $a_n\sim n^4/12$.
+\end{corollary}
+\begin{proof}
+Set $h=n+1$ and $w=4$ in \eqref{eq:count}. Expanding
+$2+2\bin{n+5}{4}+\bin{n+3}{3}$ gives \eqref{eq:quartic}. A quartic has zero fifth finite difference, giving \eqref{eq:rec} with every lagged index positive. The first five values are $36,82,162,289,478$. Multiplying the series by $(1-x)^5$ gives coefficients $0,36,-98,112,-61,13$ in degrees zero through five, and zero thereafter. This proves \eqref{eq:gf} in $\mathbb Q[[x]]$. Its numerator equals $2$ at $x=1$, so it has a pole of order five. An eventual order-$d$ recurrence would multiply it to a polynomial by a nonzero polynomial of degree at most $d$; that multiplier must vanish to order at least five at $1$. Thus $d\ge5$. The asymptotic follows from the leading coefficient.
+\end{proof}
+The series constant here is zero by its lower summation limit, not the quartic evaluated at zero ($13$), nor the native one-row count ($6$).
+
+\begin{corollary}\label{cor:width}
+Fix $w\ge2$ and put $b_n=N(n+1,w)$ for $n\ge1$. Then
+\[
+ b_n=2+2\bin{n+w+1}{w}+\bin{n+w-1}{w-1},\qquad
+ b_n\sim\frac{2n^w}{w!}.
+\]
+Its least eventual constant-coefficient recurrence order over $\mathbb Q$ is $w+1$, and
+\begin{equation}\label{eq:generalrec}
+ \sum_{j=0}^{w+1}(-1)^j\bin{w+1}{j}b_{n-j}=0
+                       \qquad(n\ge w+2).
+\end{equation}
+Its zero-constant generating function is
+\begin{equation}\label{eq:generalgf}
+ \sum_{n\ge1}b_nx^n=\frac{2x}{1-x}
+ +\frac{2}{x}\bigl((1-x)^{-(w+1)}-1-(w+1)x\bigr)
+ +(1-x)^{-w}-1.
+\end{equation}
+The division by $x$ is valid because the parenthesized series starts in degree two.
+\end{corollary}
+\begin{proof}
+The displayed count is Theorem~\ref{thm:table}. It is a degree-$w$ polynomial in $n$, with leading coefficient $2/w!$. Its $(w+1)$st finite difference is zero. The binomial-series identity, with the first two terms removed in the shifted sum, gives \eqref{eq:generalgf}. Its pole at $1$ has order $w+1$ and leading singular coefficient $2$; the other terms have smaller pole orders. The multiplier argument of Corollary~\ref{cor:four} proves minimality.
+\end{proof}
+
+For widths $w=4,5,6,7,8$, \eqref{eq:generalrec} and \eqref{eq:generalgf} prove Barker's FORMULA blocks in A202330--A202334 \cite{widths}. For transparency, the polynomials $P_w(x)$ for which the series is $xP_w(x)/(1-x)^{w+1}$ are:
+\begin{align*}
+P_4(x)&=36-98x+112x^2-61x^3+13x^4,\\
+P_5(x)&=49-165x+250x^2-203x^3+86x^4-15x^5,\\
+P_6(x)&=64-257x+485x^2-523x^3+331x^4-115x^5+17x^6,\\
+P_7(x)&=81-378x+854x^2-1148x^3+966x^4-502x^5+148x^6-19x^7,\\
+P_8(x)&=100-532x+1400x^2-2254x^3+2366x^4-1636x^5\\
+      &\hspace{2em}+722x^6-185x^7+21x^8.
+\end{align*}
+Expanding the binomial count likewise proves Hardin's empirical degree-$w$ polynomials in these entries. These are all-index polynomial identities, not fits to the tabulated terms.
+
+\section{The diagonal and the first two columns}
+\begin{corollary}\label{cor:diagonal}
+The diagonal sequence $d_n=T(n,n)$, A202329 \cite{diagonal}, is
+\begin{equation}\label{eq:diagonal}
+                 d_n=2+\frac{9n+5}{n+1}\bin{2n}{n}\qquad(n\ge1).
+\end{equation}
+Both empirical recurrences attributed to V. Kotesovec in its FORMULA field hold:
+\begin{align}
+(n+1)(27n-40)d_n
+ &=(135n^2-123n-100)d_{n-1}\notag\\
+ &\quad-2(54n^2-63n-10)d_{n-2}-8(2n-5)d_{n-3}
+                   &&(n\ge4),\label{eq:kotthree}\\
+(n+1)(9n^2-19n+8)d_n
+ &=(45n^3-68n^2-13n+20)d_{n-1}\notag\\
+ &\quad-2(2n-3)(9n^2-n-2)d_{n-2}
+                   &&(n\ge3).\label{eq:kottwo}
+\end{align}
+\end{corollary}
+\begin{proof}
+Set $h=w=n+1$ in Theorem~\ref{thm:table} and use
+$\bin{2n+2}{n+1}=2(2n+1)\bin{2n}{n}/(n+1)$ to obtain \eqref{eq:diagonal}.
+Put $R(n)=(9n+5)/(n+1)$ and
+$\rho_j(n)=\prod_{r=0}^{j-1}(n-r)/(2(2n-2r-1))$, with $\rho_0(n)=1$.
+Thus $d_{n-j}=2+R(n-j)\rho_j(n)\bin{2n}{n}$.
+The coefficient lists on the left after moving all terms of the two recurrences to the left are
+\begin{align*}
+ L(n)&=\bigl((n+1)(27n-40),\,-135n^2+123n+100,\\
+ &\hspace{4em}108n^2-126n-20,\,16n-40\bigr),\\
+ M(n)&=\bigl((n+1)(9n^2-19n+8),\,-45n^3+68n^2+13n-20,\\
+ &\hspace{4em}2(2n-3)(9n^2-n-2)\bigr).
+\end{align*}
+Direct expansion gives, for either list $H=L,M$,
+\[
+ \sum_j H_j(n)=0,\qquad
+ \sum_j H_j(n)R(n-j)\rho_j(n)=0.
+\]
+These are polynomial identities after clearing denominators: one can multiply the second by
+$\prod_{r=0}^{s}(n-r+1)\prod_{r=0}^{s-1}2(2n-2r-1)$, where $s=3$ for $L$ and $s=2$ for $M$.
+Substitution proves both recurrences. The ranges ensure positive source indices and nonzero denominators.
+\end{proof}
+
+\begin{corollary}\label{cor:columns}
+For $n\ge1$, the first two column identities in A202335 are
+\[
+ T(n,1)=(n+3)^2,\qquad
+ T(n,2)=\frac{2n^3+21n^2+61n+66}{6}.
+\]
+The second equals the maximum cyclic adjacent-product sum over permutations of $1,\ldots,n+3$, as recorded in A110610. Also $T(n,m)=T(m,n)$.
+\end{corollary}
+\begin{proof}
+Substitute $w=2,3$ in Theorem~\ref{thm:table}; symmetry follows either from the formula or from transposing arrays. To verify the stated A110610 interpretation, let $q\ge2$, let $(p_1,\ldots,p_q)$ be a permutation, and set $p_{q+1}=p_1$. Then
+\[
+ \sum_i p_ip_{i+1}=\sum_{i=1}^q i^2-\frac12\sum_i(p_i-p_{i+1})^2.
+\]
+The cycle has total absolute variation at least $2(q-1)$, by the two paths between $1$ and $q$. For each positive integer $e$, $e^2\ge3e-2$. Consequently the sum of squared differences is at least $4q-6$. A cycle listing the odd integers increasingly and then the even integers decreasingly attains this: two edge lengths are one and the other $q-2$ are two. The maximum is therefore
+\[
+ \frac{q(q+1)(2q+1)}6-2q+3
+   =\frac{2q^3+3q^2-11q+18}{6}.
+\]
+This classical permutation extremum is the 1996 Putnam problem B3, published with solutions in 1997 \cite{putnam,cyclic}; it is recalled here to justify the parent table's cross-reference, not as a new extremum. Set $q=n+3$ to obtain the column identity.
+\end{proof}
+For completeness, putting $M(1)=1$ and using the cubic above for $q\ge2$ also gives Barker's recorded generating function in A110610:
+\[
+ \sum_{q\ge1}M(q)x^q
+       =\frac{x(1+x)(1-x+2x^2-x^3)}{(1-x)^4}.
+\]
+Indeed multiplying by $(1-x)^4$ gives numerator coefficients $0,1,0,1,1,-1$, with all later coefficients zero by the fourth finite difference. This is a rederivation of a formula in the source, not a new conjecture.
+
+\section{Source coverage and precise verification scope}
+The labels below refer to the statements actually made in the cited entries. The arbitrary-width closed form is a generalization not posed there.
+\begin{center}\small
+\begin{tabular}{@{}p{0.46\linewidth}p{0.48\linewidth}@{}}
+\toprule
+Source item and locator & Coverage\\
+\midrule
+A202330 rev.\ 8, FORMULA & Proved: empirical quartic; both Barker conjectures, Corollary~\ref{cor:four}\\
+A202331 rev.\ 8, FORMULA & Proved: empirical polynomial and both conjectures, width $5$\\
+A202332 rev.\ 8, FORMULA & Proved: empirical polynomial and both conjectures, width $6$\\
+A202333 rev.\ 8, FORMULA & Proved: empirical polynomial and both conjectures, width $7$\\
+A202334 rev.\ 10, FORMULA & Proved: empirical polynomial and both conjectures, width $8$\\
+A202329 rev.\ 16, FORMULA & Proved: both empirical Kotesovec recurrences, Corollary~\ref{cor:diagonal}\\
+A202335 rev.\ 9, NAME and table & Not posed; proved: full two-parameter formula, Theorem~\ref{thm:table}\\
+A202335 CROSSREFS: A000290, A110610 & Proved: both column identities. Cyclic maximum: prior proof, Putnam solutions (1997)\\
+Fixed-width minimal order and asymptotic & Not posed; proved, Corollary~\ref{cor:width}\\
+A110610's further permutation cross-references & Not covered; different permutation statistics\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The declaration \texttt{HardinA202330.result} in the
+\href{https://github.com/the-omega-institute/trureturing/blob/79dfe4f731baccd42dd3c56cf6331a0ddd3cafdb/D5/S3/Combinatorics/TraceAvoidingArrays/HardinA202330.lean}{pinned four-column Lean source}
+has as its conclusion precisely the native-array quartic for $n\ge1$, the zero-constant formal series, and the signed recurrence for $n\ge6$. Its \texttt{count n} is the cardinality of labeled $(n+1)\times4$ Boolean arrays with the integer inequalities \eqref{eq:local}.
+The declaration \texttt{TransferMatrix.cardMatrix} in the
+\href{https://github.com/the-omega-institute/trureturing/blob/79dfe4f731baccd42dd3c56cf6331a0ddd3cafdb/D5/S3/Combinatorics/TraceAvoidingArrays/TransferMatrix.lean}{pinned finite-word Lean source}
+equates the number of finite words satisfying pair and triple predicates with the weighted sum of matrix continuations, under its stated transition-fiber and initial-fiber identities. In the four-column application its states are all $36$ ordered row pairs and its exponent is $n-1$. The full two-parameter count, other widths, diagonal, column interpretation, and minimal-order and asymptotic statements have the written proofs above.
+
+The accompanying Python files give exact rational polynomial identities and finite enumerations, with their ranges in \texttt{checks.json}. They compare the arbitrary-width formula with counts obtained directly from binary row-triple inequalities, verify every displayed polynomial and rational recurrence identity, and retain the four-column continuation-invariant check. These finite computations are separate from the all-index written proofs.
+
+\begin{thebibliography}{9}
+\bibitem{primary} R. H. Hardin, with conjectural formulas by Colin Barker,
+\emph{OEIS A202330}, revision 8, 27 May 2018, NAME and FORMULA fields (lines 5 and 8--12).
+\href{https://raw.githubusercontent.com/oeis/oeisdata/2066359a24c83163fd067fc54d1d20d143c5be69/seq/A202/A202330.seq}{Fixed sequence text}.
+\bibitem{parent} R. H. Hardin, \emph{OEIS A202335}, revision 9, 3 October 2025, NAME, COMMENT and CROSSREFS fields.
+\href{https://raw.githubusercontent.com/oeis/oeisdata/2066359a24c83163fd067fc54d1d20d143c5be69/seq/A202/A202335.seq}{Fixed sequence text}.
+\bibitem{widths} R. H. Hardin, with conjectural formulas by Colin Barker,
+\emph{OEIS A202331} (revision 8, 27 May 2018), \emph{A202332} and \emph{A202333} (revision 8, 28 May 2018), \emph{A202334} (revision 10, 28 May 2018), FORMULA fields.
+\href{https://oeis.org/A202331/internal}{A202331};
+\href{https://oeis.org/A202332/internal}{A202332};
+\href{https://oeis.org/A202333/internal}{A202333};
+\href{https://oeis.org/A202334/internal}{A202334}.
+\bibitem{diagonal} R. H. Hardin, with empirical recurrences by V. Kotesovec,
+\emph{OEIS A202329}, revision 16, 3 October 2025, FORMULA field (19 and 26 October 2012).
+\href{https://oeis.org/A202329/internal}{Entry}.
+\bibitem{cyclic} E. Deutsch, with a generating function by Colin Barker,
+\emph{OEIS A110610}, revision 18, 29 January 2022, NAME, FORMULA and REFERENCES links.
+\href{https://oeis.org/A110610/internal}{Entry}.
+\bibitem{putnam} L. F. Klosinski, G. L. Alexanderson and L. C. Larson,
+\emph{The Fifty-Seventh William Lowell Putnam Mathematical Competition},
+American Mathematical Monthly \textbf{104} (1997), 744--754, problem B3.
+\href{https://doi.org/10.2307/2975240}{doi:10.2307/2975240}.
+See also M. Bhargava and K. Kedlaya, \emph{Solutions to the 57th William Lowell Putnam Mathematical Competition}, competition of 7 December 1996, B--3,
+\href{https://kskedlaya.org/putnam-archive/1996s.pdf}{author-hosted solutions}.
+\bibitem{patterns} R. Dougherty-Bliss, C. Koutschan, N. Ter-Saakov and D. Zeilberger,
+\emph{The (Symbolic and Numeric) Computational Challenges of Counting 0-1 Balanced Matrices},
+Enumerative Combinatorics and Applications \textbf{5}:2 (2025), article S2R14, Theorem~2.2, p.~3.
+\href{https://doi.org/10.54550/ECA2025V5S2R14}{doi:10.54550/ECA2025V5S2R14};
+\href{https://arxiv.org/abs/2410.07435}{arXiv:2410.07435} (first version, 9 October 2024).
+\end{thebibliography}
+\medskip
+\noindent\small\textcopyright\ 2026 Haobo Ma and Wenlin Zhang.
+Licensed under \href{https://creativecommons.org/licenses/by/4.0/}{Creative Commons Attribution 4.0 International (CC BY 4.0)}.
+\end{document}
